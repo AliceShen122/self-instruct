@@ -39,6 +39,17 @@ def find_word_in_string(w, s):
 
 
 def post_process_gpt3_response(response):
+    # 如果响应为 None 或生成的文本不符合要求（例如超过指定长度、包含特定关键词等），则返回一个空列表。
+    # 否则，返回经过处理和过滤的生成文本列表。
+    # 函数首先检查响应是否为空或生成的文本长度超过了限制。如果是，则返回空列表。
+
+    # 接下来，函数将生成的文本按行拆分，并去除多余的空白字符和首尾空格。然后，对每个生成的指令进行以下过滤：
+
+    # 过滤掉长度过短或过长的指令。
+    # 根据一些关键词（例如 "image"、"graph"、"file" 等）过滤掉不适合用于语言模型的指令。
+    # 过滤掉以 "Write a program" 开头的指令，因为这些指令可能会导致困惑，不清楚模型是需要编写程序还是直接输出结果。
+    # 过滤掉以标点符号开头的指令。
+    # 过滤掉以非英文字符开头的指令。
     if response is None or response["choices"][0]["finish_reason"] == "length":
         return []
     raw_instructions = re.split(r"\n\d+\s?\. ", response["choices"][0]["text"])
@@ -148,7 +159,7 @@ if __name__ == "__main__":
                 request_idx = instruction_info["request_idx"] + 1
         print(f"Loaded {len(machine_instructions)} machine-generated instructions")
 
-    # similarities = {}
+    # similarities = {} 评估自动文本摘要质量的指标
     scorer = rouge_scorer.RougeScorer(["rougeL"], use_stemmer=False)
     
     # now let's generate new instructions!
@@ -172,7 +183,7 @@ if __name__ == "__main__":
                 batch_inputs.append(prompt)
             results = make_gpt3_requests(
                 engine=args.engine,
-                prompts=batch_inputs,
+                prompts=batch_inputs,  # list
                 max_tokens=1024,
                 temperature=0.7,
                 top_p=0.5,

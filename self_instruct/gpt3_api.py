@@ -47,7 +47,7 @@ def make_requests(
                 backoff_time *= 1.5
             retry_cnt += 1
     
-    if isinstance(prompts, list):
+    if isinstance(prompts, list):  # yes
         results = []
         for j, prompt in enumerate(prompts):
             data = {

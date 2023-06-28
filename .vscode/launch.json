@@ -1,0 +1,21 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: 当前文件",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "cwd": "F:/projects/self-instruct/self_instruct",
+            // "args": ["--batch_dir", "F:/projects/self-instruct/data/gpt3_generations/","--num_instructions_to_generate", "50000","--seed_tasks_path", "F:/projects/self-instruct/data/seed_tasks.jsonl", "--engine", "davinci","--api_key","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"]
+            // "args": ["--batch_dir", "F:/projects/self-instruct/data/gpt3_generations/","--engine", "davinci","--request_batch_size", "5"]
+            // "args": ["--batch_dir", "F:/projects/self-instruct/data/gpt3_generations/","--input_file", "machine_generated_instructions.jsonl","--output_file", "machine_generated_instances.jsonl","--max_instances_to_gen", "5","--engine", "davinci","--request_batch_size", "5","--api_key","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"]
+            "args":["--instance_files", "F:/projects/self-instruct/data/gpt3_generations/machine_generated_instances.jsonl", "--classification_type_files", "F:/projects/self-instruct/data/gpt3_generations/is_clf_or_not_davinci_template_1.jsonl", "--output_dir", "F:/projects/self-instruct/data/finetuning_data2", "--include_seed_tasks", "--seed_tasks_path", "F:/projects/self-instruct/data/seed_tasks.jsonl"]
+        }
+    ]
+}

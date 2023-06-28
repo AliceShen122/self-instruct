@@ -93,12 +93,12 @@ if __name__ == '__main__':
             tasks.append(data)
 
     task_clf_types = {}
-    with open(os.path.join(args.batch_dir, "is_clf_or_not_davinci_template_1.jsonl")) as fin:
+    with open(os.path.join(args.batch_dir, "is_clf_or_not_davinci_template_1.jsonl"),encoding='utf-8') as fin:
         for line in fin:
             data = json.loads(line)
             task_clf_types[data["instruction"]] = data["is_classification"].strip() in ["Yes", "yes", "YES"]
 
-    if args.classification_tasks_only:
+    if args.classification_tasks_only:  # just need classification tasks
         tasks = [task for task in tasks if task_clf_types[task["instruction"]]]
     
     if args.generation_tasks_only:
@@ -107,7 +107,7 @@ if __name__ == '__main__':
     output_path = os.path.join(args.batch_dir, args.output_file)
     existing_requests = {}
     if os.path.exists(output_path):
-        with open(output_path) as fin:
+        with open(output_path,encoding='utf-8') as fin:
             for line in tqdm.tqdm(fin):
                 try:
                     data = json.loads(line)
